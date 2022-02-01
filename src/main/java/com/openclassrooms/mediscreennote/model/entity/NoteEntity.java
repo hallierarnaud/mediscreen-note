@@ -1,5 +1,6 @@
 package com.openclassrooms.mediscreennote.model.entity;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,7 +13,7 @@ import lombok.Data;
 public class NoteEntity {
 
   @Id
-  private long id;
+  private ObjectId id;
 
   private long patientId;
 
