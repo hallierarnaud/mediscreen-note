@@ -28,6 +28,13 @@ public class NoteDAO {
       return note;
     }).collect(Collectors.toList());
   }
+  
+  public Note findById(ObjectId id) {
+    NoteEntity noteEntity = noteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("note " + id + "doesn't exist"));
+    Note note = new Note();
+    updateNoteWithNoteEntity(note, noteEntity);
+    return note;
+  }
 
   public List<Note> findAll() {
     List<NoteEntity> noteEntities = StreamSupport.stream(noteRepository.findAll().spliterator(),false)
@@ -40,9 +47,10 @@ public class NoteDAO {
   }
 
   public Note updateNote(ObjectId id, Note note) {
-    NoteEntity noteEntity = noteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("note " + id + " doesn't exist"));
-    updateNoteEntityWithNote(noteEntity, note);
-    noteRepository.save(noteEntity);
+    NoteEntity noteEntity = noteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("note " + id + "doesn't exist"));
+    noteEntity.setId(note.getId());
+    noteEntity.setPatientId(note.getPatientId());
+    noteEntity.setPatientNote(note.getPatientNote());
     return note;
   }
 
