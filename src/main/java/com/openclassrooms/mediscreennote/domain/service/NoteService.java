@@ -19,9 +19,16 @@ public class NoteService {
   @Autowired
   private NoteDAO noteDAO;
 
+  public Note getNoteById(final ObjectId id) {
+    if (!noteDAO.existById(id)) {
+      throw new NoSuchElementException("Note " + id + " doesn't exist");
+    }
+    return noteDAO.findById(id);
+  }
+
   public List<Note> getNotesByPatientId(final Long patientId) {
     if (noteDAO.findAllByPatientId(patientId) == null) {
-      throw new NoSuchElementException("Patient " + patientId + " have no note");
+      throw new NoSuchElementException("Patient " + patientId + " has no note");
     }
     return noteDAO.findAllByPatientId(patientId);
   }
@@ -31,26 +38,25 @@ public class NoteService {
             .collect(Collectors.toList());
   }
 
-  public Note updateNote(final ObjectId id, NoteRequest noteRequest) {
+  public Note updateNoteById(final ObjectId id, NoteRequest noteRequest) {
     if (noteDAO.findById(id) == null) {
       throw new NoSuchElementException("Note " + id + " doesn't exist");
     }
     Note note = noteDAO.findById(id);
     note.setId(id);
+    note.setPatientId(noteRequest.getPatientId());
     note.setPatientNote(noteRequest.getPatientNote());
-    return noteDAO.updateNote(id, note);
+    return noteDAO.updateNoteById(id, note);
   }
 
-  public Note addNote(NoteRequest noteRequest) {
-    /*if (noteDAO.existById(noteRequest.getId()) {
-      throw new EntityExistsException("Note " + noteRequest.getId() + " already exists");
-    }*/
+  public Note addNoteByPatientId(NoteRequest noteRequest) {
     Note note = new Note();
+    note.setPatientId(noteRequest.getPatientId());
     note.setPatientNote(noteRequest.getPatientNote());
-    return noteDAO.addNote(note);
+    return noteDAO.addNoteByPatientId(note);
   }
 
-  public void deleteNote(final ObjectId id) {
+  public void deleteNoteById(final ObjectId id) {
     if (!noteDAO.existById(id)) {
       throw new NoSuchElementException("Note " + id + " doesn't exist");
     }

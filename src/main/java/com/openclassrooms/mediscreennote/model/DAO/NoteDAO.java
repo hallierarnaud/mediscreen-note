@@ -19,6 +19,13 @@ public class NoteDAO {
   @Autowired
   private NoteRepository noteRepository;
 
+  public Note findById(ObjectId id) {
+    NoteEntity noteEntity = noteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("note " + id + "doesn't exist"));
+    Note note = new Note();
+    updateNoteWithNoteEntity(note, noteEntity);
+    return note;
+  }
+
   public List<Note> findAllByPatientId(Long patientId) {
     List<NoteEntity> noteEntities = StreamSupport.stream(noteRepository.findAllByPatientId(patientId).spliterator(), false)
             .collect(Collectors.toList());
@@ -27,13 +34,6 @@ public class NoteDAO {
       updateNoteWithNoteEntity(note, noteEntity);
       return note;
     }).collect(Collectors.toList());
-  }
-  
-  public Note findById(ObjectId id) {
-    NoteEntity noteEntity = noteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("note " + id + "doesn't exist"));
-    Note note = new Note();
-    updateNoteWithNoteEntity(note, noteEntity);
-    return note;
   }
 
   public List<Note> findAll() {
@@ -46,15 +46,16 @@ public class NoteDAO {
     }).collect(Collectors.toList());
   }
 
-  public Note updateNote(ObjectId id, Note note) {
+  public Note updateNoteById(ObjectId id, Note note) {
     NoteEntity noteEntity = noteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("note " + id + "doesn't exist"));
     noteEntity.setId(note.getId());
     noteEntity.setPatientId(note.getPatientId());
     noteEntity.setPatientNote(note.getPatientNote());
+    noteRepository.save(noteEntity);
     return note;
   }
 
-  public Note addNote(Note note) {
+  public Note addNoteByPatientId(Note note) {
     NoteEntity noteEntity = new NoteEntity();
     updateNoteEntityWithNote(noteEntity, note);
     noteRepository.save(noteEntity);
