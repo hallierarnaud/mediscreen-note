@@ -4,7 +4,6 @@ import com.openclassrooms.mediscreennote.controller.DTO.NoteRequest;
 import com.openclassrooms.mediscreennote.domain.object.Note;
 import com.openclassrooms.mediscreennote.model.DAO.NoteDAO;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ public class NoteService {
   @Autowired
   private NoteDAO noteDAO;
 
-  public Note getNoteById(final ObjectId id) {
+  public Note getNoteById(final String id) {
     if (!noteDAO.existById(id)) {
       throw new NoSuchElementException("Note " + id + " doesn't exist");
     }
@@ -38,7 +37,7 @@ public class NoteService {
             .collect(Collectors.toList());
   }
 
-  public Note updateNoteById(final ObjectId id, NoteRequest noteRequest) {
+  public Note updateNoteById(final String id, NoteRequest noteRequest) {
     if (noteDAO.findById(id) == null) {
       throw new NoSuchElementException("Note " + id + " doesn't exist");
     }
@@ -56,7 +55,7 @@ public class NoteService {
     return noteDAO.addNoteByPatientId(note);
   }
 
-  public void deleteNoteById(final ObjectId id) {
+  public void deleteNoteById(final String id) {
     if (!noteDAO.existById(id)) {
       throw new NoSuchElementException("Note " + id + " doesn't exist");
     }

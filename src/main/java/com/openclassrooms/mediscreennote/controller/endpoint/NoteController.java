@@ -4,7 +4,6 @@ import com.openclassrooms.mediscreennote.controller.DTO.NoteRequest;
 import com.openclassrooms.mediscreennote.domain.object.Note;
 import com.openclassrooms.mediscreennote.domain.service.NoteService;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,7 +31,7 @@ public class NoteController {
    * @return a note corresponding to the id
    */
   @GetMapping("/note/{id}")
-  public Note getNoteById(@PathVariable("id") ObjectId id) {
+  public Note getNoteById(@PathVariable("id") String id) {
     try {
       return noteService.getNoteById(id);
     } catch (NoSuchElementException e) {
@@ -67,7 +66,7 @@ public class NoteController {
    * @return update the note in the database
    */
   @PutMapping("/notes/{id}")
-  public Note updateNoteById(@PathVariable("id") ObjectId id, @RequestBody NoteRequest noteRequest) {
+  public Note updateNoteById(@PathVariable("id") String id, @RequestBody NoteRequest noteRequest) {
     try {
       return noteService.updateNoteById(id, noteRequest);
     } catch (NoSuchElementException e) {
@@ -89,7 +88,7 @@ public class NoteController {
    * delete the note in the database
    */
   @DeleteMapping("/notes/{id}")
-  public void deleteNoteById(@PathVariable("id") ObjectId id) {
+  public void deleteNoteById(@PathVariable("id") String id) {
     try {
       noteService.deleteNoteById(id);
       throw new ResponseStatusException(HttpStatus.OK, "note " + id + " was deleted");
