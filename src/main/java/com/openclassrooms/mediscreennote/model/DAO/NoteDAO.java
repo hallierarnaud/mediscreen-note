@@ -46,7 +46,7 @@ public class NoteDAO {
   }
 
   public Note updateNoteById(String id, Note note) {
-    NoteEntity noteEntity = noteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("note " + id + "doesn't exist"));
+    NoteEntity noteEntity = noteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("note " + id + " doesn't exist"));
     noteEntity.setId(note.getId());
     noteEntity.setPatientId(note.getPatientId());
     noteEntity.setPatientNote(note.getPatientNote());
