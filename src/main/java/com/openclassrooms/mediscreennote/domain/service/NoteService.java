@@ -48,9 +48,9 @@ public class NoteService {
     return noteDAO.updateNoteById(id, note);
   }
 
-  public Note addNoteByPatientId(NoteRequest noteRequest) {
+  public Note addNoteByPatientId(Long patientId, NoteRequest noteRequest) {
     Note note = new Note();
-    note.setPatientId(noteRequest.getPatientId());
+    note.setPatientId(patientId);
     note.setPatientNote(noteRequest.getPatientNote());
     return noteDAO.addNoteByPatientId(note);
   }

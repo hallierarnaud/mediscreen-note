@@ -135,10 +135,11 @@ public class NoteServiceTest {
     NoteRequest noteRequest = new NoteRequest();
     noteRequest.setPatientNote("diabete");
     Note note = new Note();
+    note.setPatientId(1l);
     when(noteDAO.addNoteByPatientId(any(Note.class))).thenReturn(note);
 
     // WHEN
-    Note addedNote = noteService.addNoteByPatientId(noteRequest);
+    Note addedNote = noteService.addNoteByPatientId(note.getPatientId(), noteRequest);
 
     // THEN
     assertEquals(note.getPatientNote(), addedNote.getPatientNote());

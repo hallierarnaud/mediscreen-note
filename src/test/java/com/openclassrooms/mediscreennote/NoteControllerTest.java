@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -75,8 +76,8 @@ public class NoteControllerTest {
 
   @Test
   public void addNoteByPatientId_shouldReturnOk() throws Exception {
-    when(noteService.addNoteByPatientId(any())).thenReturn(new Note());
-    mockMvc.perform(post("/notes")
+    when(noteService.addNoteByPatientId(anyLong(), any())).thenReturn(new Note());
+    mockMvc.perform(post("/notes/1")
                     .contentType(MediaType.APPLICATION_JSON).content("{}"))
             .andExpect(status().isOk());
   }

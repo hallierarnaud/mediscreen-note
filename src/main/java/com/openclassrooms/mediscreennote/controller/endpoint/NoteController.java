@@ -75,12 +75,13 @@ public class NoteController {
   }
 
   /**
+   * @param patientId a patient's id
    * @param noteRequest a note defined by his attributes
    * @return add the note to the database
    */
-  @PostMapping("/notes")
-  public Note addNoteByPatientId(@RequestBody NoteRequest noteRequest) {
-    return noteService.addNoteByPatientId(noteRequest);
+  @PostMapping("/notes/{patientId}")
+  public Note addNoteByPatientId(@PathVariable("patientId") long patientId, @RequestBody NoteRequest noteRequest) {
+    return noteService.addNoteByPatientId(patientId, noteRequest);
   }
 
   /**
